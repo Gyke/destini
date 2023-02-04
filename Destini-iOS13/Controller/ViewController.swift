@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     
     func setUI() {
         storyLabel.text = storyBrain.currentStory.title
-        if storyBrain.isGameOver {
+        if storyBrain.isGameOver() {
             buttons.forEach({ $0.isHidden = true })
             return
         }
