@@ -14,32 +14,28 @@ class ViewController: UIViewController {
     @IBOutlet weak var choice1Button: UIButton!
     @IBOutlet weak var choice2Button: UIButton!
     
-    @IBAction func choiceButtonPressed(_ sender: UIButton) {
-        nextStory()
-    }
-    
     var storyBrain = StoryBrain()
     var buttons: [UIButton] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUI()
         buttons += [choice1Button, choice2Button]
+        setUI()
+    }
+    
+    @IBAction func choiceButtonPressed(_ sender: UIButton) {
+        storyBrain.nextStory(sender.currentTitle!)
+        setUI()
     }
     
     func setUI() {
-        let currentStory = storyBrain.getCurrentStory()
-        storyLabel.text = currentStory.title
-        for (i, button) in buttons.enumerated() {
-            button.setTitle(currentStory.choices[i], for: .normal)
-        }
-    }
-    
-    func nextStory() {
-        storyBrain.increaseStoryNumber()
-        if storyBrain.isGameOver() {
+        storyLabel.text = storyBrain.currentStory.title
+        if storyBrain.isGameOver {
+            buttons.forEach({ $0.isHidden = true })
             return
         }
-        setUI()
+        for (i, choice) in storyBrain.currentStory.choices.enumerated() {
+            buttons[i].setTitle(choice.key, for: .normal)
+        }
     }
 }

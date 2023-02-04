@@ -10,5 +10,18 @@ import Foundation
 
 struct Story {
     let title: String
-    let choices: [String]
+    var choices: [String: Story] = [:]
+    
+    init(title: String) {
+        self.title = title
+    }
+    
+    mutating func setChoice(choice: String, story: Story) {
+        choices[choice] = story
+    }
+    
+    func getStory(by choice: String) -> Story? {
+        return choices[choice]
+    }
+    
 }
